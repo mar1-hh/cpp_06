@@ -24,8 +24,9 @@ bool is_int(std::string str)
 bool is_float(std::string str)
 {
     size_t i = 0;
+    // std::cout << "1337" << std::endl;
     if (is_scstr(str))
-        return (1);
+    return (1);
     if (str[i] == '-')
         i++;
     while (i < str.length() && isdigit(str[i]))
@@ -42,15 +43,22 @@ bool is_float(std::string str)
     return (i == str.length());
 }
 
+
+// void convert_from_double(double value)
+// {
+
+// }
+
 bool is_scstr(std::string str)
 {
     if (str == "nan" || str == "-nan" || str == "+nan" || str == "inf" || str == "-inf" || str == "+inf")
-        return (1);
+    return (1);
     if (str == "nanf" || str == "-nanf" || str == "+nanf" || str == "inff" || str == "-inff" || str == "+inff")
     {
         is_float_num = 1;
         return (1);
     }
+    
     return (0);
 }
 
@@ -89,7 +97,7 @@ void    out_int(std::string str)
 {
     int int_num = atoi(str.c_str());
     char c;
-    if (isprint(int_num))
+    if (int_num >= 32 && int_num <= 126)
         c = static_cast<char> (int_num);
     else
         c = 1;
@@ -102,12 +110,14 @@ void    out_int(std::string str)
 void out_float(std::string str)
 {
     float fl_num = atof(str.c_str());
+    
     int int_num = static_cast<int> (fl_num);
     char c;
-    if (isprint(isprint(int_num)))
-        c = static_cast<char> (fl_num);
+    std::cout << int_num << std::endl;
+    if (int_num >= 32 && int_num <= 126)
+    c = static_cast<char> (fl_num);
     else
-        c = 1;
+    c = 1;
     double dl_num = static_cast<double> (fl_num);
     info_print(c, int_num, fl_num, dl_num);
 }
@@ -117,18 +127,13 @@ void out_double(std::string str)
     double dl_num = strtod(str.c_str(), NULL);
     int int_num = static_cast<int> (dl_num);
     char c;
-    if (isprint(int_num))
+    if (int_num >= 32 && int_num <= 126)
         c = static_cast<char> (dl_num);
     else
         c = 1;
     float fl_num = static_cast<float> (dl_num);
     info_print(c, int_num, fl_num, dl_num);
 }
-
-// void out_scterm(std::string str)
-// {
-    
-// }
 
 void ScalarConverter::convert(std::string str)
 {
@@ -140,8 +145,6 @@ void ScalarConverter::convert(std::string str)
         out_double(str);
     else if (is_char(str))
         out_char(str);
-    else if (is_scstr(str))
-        std::cout << "is scintifique term" << std::endl;
     else
         std::cout << "chi t5arbi9a" << std::endl;
 }
