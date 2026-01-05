@@ -2,8 +2,6 @@
 
 bool is_scstr(std::string str);
 
-bool is_float_num = 0;
-
 bool is_char(std::string str)
 {
     if (str.length() == 1 && isprint(str[0]))
@@ -24,7 +22,6 @@ bool is_int(std::string str)
 bool is_float(std::string str)
 {
     size_t i = 0;
-    // std::cout << "1337" << std::endl;
     if (is_scstr(str))
     return (1);
     if (str[i] == '-')
@@ -37,17 +34,10 @@ bool is_float(std::string str)
         i++;
     if (str[i] == 'f')
     {
-        is_float_num = 1;
         i++;
     }
     return (i == str.length());
 }
-
-
-// void convert_from_double(double value)
-// {
-
-// }
 
 bool is_scstr(std::string str)
 {
@@ -55,7 +45,6 @@ bool is_scstr(std::string str)
     return (1);
     if (str == "nanf" || str == "-nanf" || str == "+nanf" || str == "inff" || str == "-inff" || str == "+inff")
     {
-        is_float_num = 1;
         return (1);
     }
     
@@ -65,18 +54,26 @@ bool is_scstr(std::string str)
 void info_print(char c, int int_num, float fl_num, double dl_num)
 {
     std::cout << "char: ";
-    if (!isprint(c))
+    if (std::isnan(dl_num) || std::isinf(dl_num))
+        std::cout << "impossible" << std::endl;
+    else if (!isprint(c))
         std::cout << "Non displayable" << std::endl;
     else
         std::cout << c << std::endl;
-    std::cout << "int: " << int_num << std::endl;
+
+    std::cout << "int: ";
+    if (std::isnan(dl_num) || std::isinf(dl_num) || dl_num > static_cast<double> (INT_MAX) || dl_num < static_cast<double> (INT_MIN))
+        std::cout << "impossible" << std::endl;
+    else
+        std::cout << int_num << std::endl;
+
     std::cout << "float: " << fl_num;
-    if (fl_num == floor(fl_num))
+    if (fl_num == floor(fl_num) && !(std::isnan(fl_num) || std::isinf(fl_num)))
         std::cout << ".0f" << std::endl;
     else
         std::cout << "f" << std::endl;
     std::cout << "double: " << dl_num;
-    if (fl_num == floor(fl_num))
+    if (dl_num == floor(dl_num) && !(std::isnan(dl_num) || std::isinf(dl_num)))
         std::cout << ".0" << std::endl;
     else
         std::cout << std::endl;
@@ -90,35 +87,6 @@ void out_char(std::string str)
     float fl_num = static_cast<float> (c);
     double dl_num = static_cast<double> (c);
 
-    info_print(c, int_num, fl_num, dl_num);
-}
-
-void    out_int(std::string str)
-{
-    int int_num = atoi(str.c_str());
-    char c;
-    if (int_num >= 32 && int_num <= 126)
-        c = static_cast<char> (int_num);
-    else
-        c = 1;
-    float fl_num = static_cast<float> (int_num);
-    double dl_num = static_cast<double> (int_num);
-
-    info_print(c, int_num, fl_num, dl_num);
-}
-
-void out_float(std::string str)
-{
-    float fl_num = atof(str.c_str());
-    
-    int int_num = static_cast<int> (fl_num);
-    char c;
-    std::cout << int_num << std::endl;
-    if (int_num >= 32 && int_num <= 126)
-    c = static_cast<char> (fl_num);
-    else
-    c = 1;
-    double dl_num = static_cast<double> (fl_num);
     info_print(c, int_num, fl_num, dl_num);
 }
 
@@ -137,12 +105,12 @@ void out_double(std::string str)
 
 void ScalarConverter::convert(std::string str)
 {
-    if (is_int(str))
-        out_int(str);
-    else if (is_float(str) && is_float_num)
-        out_float(str);
-    else if (is_float(str))
+    if (is_int(str) || is_float(str))
         out_double(str);
+    // else if (is_float(str))
+    //     out_double(str);
+    // else if (is_float(str))
+    //     out_double(str);
     else if (is_char(str))
         out_char(str);
     else
