@@ -1,4 +1,4 @@
-NAME = convet
+NAME = convert
 
 CC = c++
 

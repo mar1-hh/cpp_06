@@ -1,5 +1,20 @@
 #include "ScalarConverter.hpp"
 
+ScalarConverter::ScalarConverter(){};
+
+ScalarConverter::ScalarConverter(ScalarConverter& obj)
+{
+    (void)obj;
+}
+
+ScalarConverter& ScalarConverter::operator=(ScalarConverter& obj)
+{
+    (void)obj;
+    return (*this);
+}
+
+ScalarConverter::~ScalarConverter(){};
+
 bool is_scstr(std::string str);
 
 bool is_char(std::string str)
@@ -7,16 +22,6 @@ bool is_char(std::string str)
     if (str.length() == 1 && isprint(str[0]))
         return (1);
     return (0);
-}
-
-bool is_int(std::string str)
-{
-    size_t i = 0;
-    if (str[i] == '-')
-        i++;
-    while (i < str.length() && isdigit(str[i]))
-        i++;
-    return (i == str.length());
 }
 
 bool is_float(std::string str)
@@ -105,14 +110,10 @@ void out_double(std::string str)
 
 void ScalarConverter::convert(std::string str)
 {
-    if (is_int(str) || is_float(str))
+    if (is_float(str))
         out_double(str);
-    // else if (is_float(str))
-    //     out_double(str);
-    // else if (is_float(str))
-    //     out_double(str);
     else if (is_char(str))
         out_char(str);
     else
-        std::cout << "chi t5arbi9a" << std::endl;
+        std::cout << "something wrong" << std::endl;
 }

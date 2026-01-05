@@ -9,5 +9,9 @@
 class ScalarConverter
 {
     public:
-    void convert(std::string str);
+    ScalarConverter();
+    ScalarConverter(ScalarConverter& obj);
+    ScalarConverter& operator=(ScalarConverter& obj);
+    ~ScalarConverter();
+    static void convert(std::string str);
 };
